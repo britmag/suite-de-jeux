@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 def normalize_weights(weights):
-    norm_weights = weights / np.sum(weights)
+    norm_weights = weights / np.float(np.sum(weights))
     return norm_weights
 
 def initialize_named_choices(names, weights):
