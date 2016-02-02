@@ -8,13 +8,14 @@ def run_timers(names, mu):
     for it in xrange(len(times)):
         print "%s : %d minutes" % (names[it], times[it])
 
-    print "Total = %d minutes" % sum(times)
+    print "Total = %d minutes\n" % sum(times)
 
 
 if __name__ == '__main__':
     #court
-    names_court = ['PL','PSG','PSD','CCS','SCE']
-    names_long = ['CCV', 'SCS']
+    names_court = ['Pince levre', 'Pince sein gauche', 'Pince sein droit',
+                   'Ceinture contention seins', 'Slip coton avec elastiques']
+    names_long = ['Ceinture contention ventre', 'Slip coton simple']
 
     run_timers(names_court, 12)
     run_timers(names_long, 45)
