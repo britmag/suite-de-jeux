@@ -1,11 +1,10 @@
 # encoding: utf-8
 from scipy import stats
 import bm_prob
+import bm_io
 import numpy as np
-import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
 
+email_file = 'email_jeu_TL.txt'
 
 def make_message(noms_role, rv_role, noms_epaisseur, rv_epaisseur):
     msg = "Le jeu commence... \n\n" + \
@@ -14,24 +13,7 @@ def make_message(noms_role, rv_role, noms_epaisseur, rv_epaisseur):
                 stats.poisson.rvs(mu_duree),
                 noms_epaisseur[rv_epaisseur.rvs(size=1)])
 
-
     return msg
-
-def send_message(body):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    fromaddr = "FROMADD@gmail.com"
-    toaddr = "TOADD@gmail.com"
-    msg = MIMEMultipart()
-    msg['From'] = fromaddr
-    msg['To'] = toaddr
-    msg['Subject'] = "Proposition de jeu"
-    msg.attach(MIMEText(body, 'plain'))
-    text = msg.as_string()
-
-    server.starttls()
-    server.login(fromaddr, PASSWORD)
-    server.sendmail(fromaddr, toaddr, text)
-    server.quit()
 
 if __name__ == '__main__':
 
@@ -47,7 +29,7 @@ if __name__ == '__main__':
     rv_epaisseur = bm_prob.initialize_named_choices(noms_epaisseur, w_epaisseur)
 
     msg = make_message(noms_role, rv_role, noms_epaisseur, rv_epaisseur)
-    send_message(msg)
+    bm_io.send_message(email_file, msg, 'Proposition de jeu pour TL')
 
     print "Proposition de jeu envoyée..."
 

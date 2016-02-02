@@ -1,11 +1,10 @@
 # encoding: utf-8
 from scipy import stats
 import bm_prob
+import bm_io
 import numpy as np
-import smtplib
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
 
+email_file = 'email_jeu_britmag.txt'
 
 def make_message(noms_att, rv_att, noms_instrum, rv_instrum, noms_acc, rv_acc):
     msg = "Le jeu commence... \n\n" + \
@@ -20,22 +19,6 @@ def make_message(noms_att, rv_att, noms_instrum, rv_instrum, noms_acc, rv_acc):
 
 
     return msg
-
-def send_message(body):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    fromaddr = "FROMADDR@gmail.com"
-    toaddr = "TOADDR@gmail.com"
-    msg = MIMEMultipart()
-    msg['From'] = fromaddr
-    msg['To'] = toaddr
-    msg['Subject'] = "Proposition de jeu"
-    msg.attach(MIMEText(body, 'plain'))
-    text = msg.as_string()
-
-    server.starttls()
-    server.login(fromaddr, PASSWORD)
-    server.sendmail(fromaddr, toaddr, text)
-    server.quit()
 
 if __name__ == '__main__':
 
@@ -61,7 +44,7 @@ if __name__ == '__main__':
     rv_acc = bm_prob.initialize_named_choices(noms_acc, w_acc)
 
     msg = make_message(noms_att, rv_att, noms_instrum, rv_instrum, noms_acc, rv_acc)
-    send_message(msg)
+    bm_io.send_message(email_file, msg, "Proposition de jeu pour Britannie")
 
     print "Proposition de jeu envoyée..."
 
