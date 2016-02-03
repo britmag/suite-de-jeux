@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+#vi
+*.swp
+
 # Distribution / packaging
 .Python
 env/
@@ -60,3 +63,6 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#specific files
+email*.txt
