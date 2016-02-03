@@ -14,8 +14,8 @@ def run_timers(names, mu):
 if __name__ == '__main__':
     #court
     names_court = ['Pince levre', 'Pince sein gauche', 'Pince sein droit',
-                   'Contention seins', 'Slip avec elastique']
-    names_long = ['Ceinture ventrale', 'Slip string coton', 'Maintien posture']
+                   'Slip avec elastique']
+    names_long = ['Slip string coton', 'Maintien posture']
 
     run_timers(names_court, 12)
 
