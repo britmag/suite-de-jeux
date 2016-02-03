@@ -1,10 +1,12 @@
 import smtplib
+import string
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
 def read_email_file(filename):
     f = open(filename, 'r')
     lines = f.readlines()
+    f.close()
     smtp = lines[0].strip()
     from_add = lines[1].strip()
     passwd = lines[2].strip()
@@ -27,4 +29,13 @@ def send_message(email_file, body, subject):
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
 
-
+def read_data_file(filename):
+    f = open(filename,'r')
+    lines = f.readlines()
+    f.close()
+    data_dict = {}
+    for line in lines:
+        (name_txt, time_txt) = line.split()
+        data_dict[name_txt] = (string.replace(name_txt, '_', ' '),
+                               int(time_txt))
+    return data_dict
