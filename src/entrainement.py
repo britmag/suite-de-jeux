@@ -1,7 +1,7 @@
 # encoding: utf-8
 from scipy import stats
 from random import shuffle
-from bm_io import read_data_file
+from bm_io import read_data_file, send_message
 
 def training_times(data_dict, max_time):
     """
@@ -12,7 +12,7 @@ def training_times(data_dict, max_time):
     shuffle(elements)
     time_left = max_time
 
-    print "Entrainement sur %d minutes : " % max_time
+    text =  "\nEntrainement sur %d minutes : \n" % max_time
     for el in elements:
         name = el[0]
         time = stats.poisson.rvs(el[1], size=1)
@@ -20,17 +20,19 @@ def training_times(data_dict, max_time):
             continue
         else:
             time_left = time_left - time
-            print "  - %s : %d minutes" % (name, time)
+            text = text +  "  - %s : %d minutes\n" % (name, time)
 
-    print "Bon travail !!"
+    return text
 
 if __name__ == '__main__':
 
-    duree = 120
-
-    data_dict = read_data_file('accessoires_britmag.txt')
-    training_times(data_dict, duree)
-
+    duree = 15
     data_dict = read_data_file('positions_britmag.txt')
-    training_times(data_dict, duree)
+    text = training_times(data_dict, duree)
+
+    duree = 45
+    data_dict = read_data_file('accessoires_britmag.txt')
+    text = text + training_times(data_dict, duree)
+
+    send_message('email_entrainement.txt', text, "Séquence d'entrainement")
 
