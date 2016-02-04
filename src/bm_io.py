@@ -35,7 +35,7 @@ def read_data_file(filename):
     f.close()
     data_dict = {}
     for line in lines:
-        (name_txt, time_txt) = line.split()
+        (name_txt, time_txt, weight_txt) = line.split()
         data_dict[name_txt] = (string.replace(name_txt, '_', ' '),
-                               int(time_txt))
+                               int(time_txt), float(weight_txt))
     return data_dict
