@@ -39,3 +39,17 @@ def read_data_file(filename):
         data_dict[name_txt] = (string.replace(name_txt, '_', ' '),
                                int(time_txt), float(weight_txt))
     return data_dict
+
+def read_sequence_file(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    f.close()
+    step_list = []
+    for line in lines:
+        elements = line.split()
+        n_elements = len(elements)
+        max_time = float(elements[-2])
+        units = elements[-1]
+        step = [elements[i] for i in xrange(n_elements-2)]
+        step_list.append((step, max_time, units))
+    return step_list
