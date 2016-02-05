@@ -10,6 +10,9 @@ __enamlcache__/
 #vi
 *.swp
 
+#sqlite3
+db.sqlite3
+
 # Distribution / packaging
 .Python
 env/
