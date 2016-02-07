@@ -1,5 +1,8 @@
 import smtplib
 import string
+import subprocess
+import tempfile
+import os
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
@@ -53,3 +56,24 @@ def read_sequence_file(filename):
         step = [elements[i] for i in xrange(n_elements-2)]
         step_list.append((step, max_time, units))
     return step_list
+
+def read_sms_file(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    f.close()
+    buddy = lines[0].strip()
+    service = lines[1].strip()
+ 
+    return buddy, service
+
+def send_sms_message(sms_file, body):
+    buddy, service = read_sms_file(sms_file)
+    fname = tempfile.NamedTemporaryFile(mode='w', delete=False)
+    fname.write("tell application \"Messages\"\n")
+    fname.write("activate\n")
+    fname.write("send \"%s\" to buddy \"%s\" of service \"E:%s\"\n" %
+        (body, buddy, service))
+    fname.write("end tell")
+    fname.close()
+    subprocess.call(["osascript", fname.name])
+    os.unlink(fname.name)

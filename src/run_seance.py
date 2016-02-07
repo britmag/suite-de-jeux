@@ -3,7 +3,7 @@ import numpy as np
 from scipy import stats
 from random import shuffle
 from optparse import OptionParser
-from bm_io import read_data_file, send_message, read_sequence_file
+from bm_io import read_data_file, send_message, read_sequence_file, send_sms_message
 from bm_prob import initialize_named_choices
 
 def sequence(step_list):
@@ -55,6 +55,9 @@ if __name__ == '__main__':
     parser.add_option("-e", "--email", dest="e_filename",
                       help="Nom fichier avec infos pour envoi email.",
                       action="store", type="string")
+    parser.add_option("-s", "--sms", dest="s_filename",
+                      help="Nom fichier avec infos pour envoi SMS.",
+                      action="store", type="string")
 
     (options, args) = parser.parse_args()
 
@@ -63,6 +66,8 @@ if __name__ == '__main__':
 
     if options.e_filename is not None:
         send_message(options.e_filename, text, "Proposition de séance")
+    if options.s_filename is not None:
+        send_message(options.s_filename, text)
     else:
         print text
 

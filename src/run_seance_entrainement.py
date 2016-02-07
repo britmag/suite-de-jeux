@@ -3,7 +3,7 @@ import numpy as np
 from scipy import stats
 from random import shuffle
 from optparse import OptionParser
-from bm_io import read_data_file, send_message
+from bm_io import read_data_file, send_message, send_sms_message
 from bm_prob import initialize_named_choices
 
 def training_times(data_dict, max_time):
@@ -28,7 +28,8 @@ def training_times(data_dict, max_time):
             dur = min(data_dict[key][1], time_left)
             time = stats.poisson.rvs(dur, size=1)
             time_left = time_left - time
-            text = text +  "  - %s : %d minutes\n" % (name, time)
+            if time > 0:
+                text = text +  "  - %s : %d minutes\n" % (name, time)
         else:
             break
 
@@ -47,6 +48,9 @@ if __name__ == '__main__':
     parser.add_option("-e", "--email", dest="e_filename",
                       help="Nom fichier avec infos pour envoi email.",
                       action="store", type="string")
+    parser.add_option("-s", "--sms", dest="s_filename",
+                      help="Nom fichier avec infos pour envoi SMS.",
+                      action="store", type="string")
 
     (options, args) = parser.parse_args()
 
@@ -55,6 +59,8 @@ if __name__ == '__main__':
 
     if options.e_filename is not None:
         send_message(options.e_filename, text, "Séance d'entrainement")
+    if options.s_filename is not None:
+        send_sms_message(options.s_filename, text)
     else:
         print text
 
